@@ -1,0 +1,38 @@
+# Python-related files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Flask-related files
+instance/
+.env
+
+# Virtual environment
+venv/
+
+# Node.js-related files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage and testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Tailwind build artifacts
+portfolio/static/css/output.css
+
+# Editor settings
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
