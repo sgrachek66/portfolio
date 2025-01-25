@@ -47,4 +47,5 @@ def create_app(test_config=None):
         except ImportError as e:
             return f"Missing requirement: {str(e)}"
     
+    
     return app

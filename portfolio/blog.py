@@ -7,6 +7,8 @@ from werkzeug.exceptions import abort
 from portfolio.auth import login_required
 from portfolio.db import get_db
 
+from portfolio.utils.security import sanitize_html
+
 bp = Blueprint('blog', __name__)
 
 @bp.route('/')
@@ -24,7 +26,10 @@ def index():
 def create():
     if request.method == 'POST':
         title = request.form['title']
-        body = request.form['body']
+        raw_body = request.form['body']
+        
+        body = sanitize_html(raw_body)
+        
         error = None
 
         if not title:
@@ -61,6 +66,12 @@ def get_post(id, check_author=True):
     return post
 
 
+@bp.route('/<int:id>/detail', methods=('GET',))
+def detail(id):
+    post = get_post(id)
+    return render_template('blog/detail.html', post=post)
+
+
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
 def update(id):
@@ -68,7 +79,9 @@ def update(id):
     
     if request.method == 'POST':
         title = request.form['title']
-        body = request.form['body']
+        raw_body = request.form['body']
+        
+        body = sanitize_html(raw_body)
         error = None
         
         if not title:

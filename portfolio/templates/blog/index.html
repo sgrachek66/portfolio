@@ -15,30 +15,44 @@
 {% endblock %}
 
 {% block content %}
-  <div class="space-y-6">
-    {% for post in posts %}
-      <article class="bg-white p-6 rounded-lg shadow-md">
-        <header class="flex justify-between items-center">
-          <div>
-            <h2 class="text-2xl font-semibold text-gray-800">{{ post['title'] }}</h2>
-            <p class="text-sm text-gray-500">
-              by <span class="font-medium">{{ post['username'] }}</span> on {{ post['created'].strftime('%Y-%m-%d') }}
-            </p>
-          </div>
-          {% if g.user['id'] == post['author_id'] %}
-            <a 
-              href="{{ url_for('blog.update', id=post['id']) }}" 
-              class="text-indigo-600 hover:underline font-medium"
-            >
-              Edit
-            </a>
-          {% endif %}
-        </header>
-        <p class="mt-4 text-gray-700">{{ post['body'] }}</p>
-      </article>
-      {% if not loop.last %}
-        <hr class="border-gray-200">
-      {% endif %}
-    {% endfor %}
-  </div>
+<div class="space-y-6">
+  {% for post in posts %}
+    <article class="bg-white p-6 rounded-lg shadow-md">
+      <header class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-semibold text-gray-800">{{ post['title'] }}</h2>
+          <p class="text-sm text-gray-500">
+            by <span class="font-medium">{{ post['username'] }}</span> on {{ post['created'].strftime('%Y-%m-%d') }}
+          </p>
+        </div>
+        {% if g.user and g.user['id'] == post['author_id'] %}
+          <a 
+            href="{{ url_for('blog.update', id=post['id']) }}" 
+            class="text-indigo-600 hover:underline font-medium"
+          >
+            Edit
+          </a>
+        {% endif %}
+      </header>
+
+      <!-- Truncated Body -->
+      <p class="mt-4 text-gray-700">
+        {{ post['body']|truncate(50, True, '...') | safe }}
+      </p>
+
+      <!-- Read More Link -->
+      <a 
+        href="{{ url_for('blog.detail', id=post['id']) }}"
+        class="text-indigo-600 hover:underline font-medium"
+      >
+        Read More
+      </a>
+    </article>
+
+    {% if not loop.last %}
+      <hr class="border-gray-200">
+    {% endif %}
+  {% endfor %}
+</div>
+
 {% endblock %}
