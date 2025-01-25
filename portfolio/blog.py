@@ -3,11 +3,10 @@ from flask import (
 )
 
 from werkzeug.exceptions import abort
-
 from portfolio.auth import login_required
 from portfolio.db import get_db
-
 from portfolio.utils.security import sanitize_html
+from portfolio.webforms import PostForm
 
 bp = Blueprint('blog', __name__)
 
@@ -24,17 +23,18 @@ def index():
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
-    if request.method == 'POST':
-        title = request.form['title']
-        raw_body = request.form['body']
+    form = PostForm()
+    
+    if form.validate_on_submit():
+        title = form.title.data
+        raw_body = form.content.data # from the CKEditorField
         
         body = sanitize_html(raw_body)
-        
         error = None
-
+        
         if not title:
             error = 'Title is required.'
-
+        
         if error is not None:
             flash(error)
         else:
@@ -46,8 +46,8 @@ def create():
             )
             db.commit()
             return redirect(url_for('blog.index'))
-
-    return render_template('blog/create.html')
+    
+    return render_template('blog/create.html', form=form)
 
 def get_post(id, check_author=True):
     post = get_db().execute(
@@ -68,7 +68,7 @@ def get_post(id, check_author=True):
 
 @bp.route('/<int:id>/detail', methods=('GET',))
 def detail(id):
-    post = get_post(id)
+    post = get_post(id, False)
     return render_template('blog/detail.html', post=post)
 
 
@@ -77,30 +77,36 @@ def detail(id):
 def update(id):
     post = get_post(id)
     
-    if request.method == 'POST':
-        title = request.form['title']
-        raw_body = request.form['body']
-        
-        body = sanitize_html(raw_body)
-        error = None
-        
-        if not title:
-            error = 'Title is required.'
-        
-        if error is not None:
-            flash(error)
-        else:
-            db = get_db()
-            db.execute(
-                'UPDATE post SET title = ?, body = ?'
-                ' WHERE id = ?',
-                (title, body, id)
-            )
-            db.commit()
-            return redirect(url_for('blog.index'))
+    form = PostForm()
     
-    return render_template('blog/update.html', post=post)
-
+    if request.method == 'GET':
+        # Pre-fill the form fields with exisiting data
+        form.title.data = post['title']
+        form.content.data = post['body']
+    else:
+        # If POST, check validation
+        if form.validate_on_submit():
+            title = form.title.data
+            raw_body = form.content.data
+            body = sanitize_html(raw_body)
+            
+            error = None
+            if not title:
+                error = 'Title is required.'
+            
+            if error:
+                flash(error)
+            else:
+                db = get_db()
+                db.execute(
+                    'UPDATE post SET title = ?, body = ?'
+                    ' WHERE id = ?',
+                    (title, body, id)
+                )
+                db.commit()
+                return redirect(url_for('blog.index'))
+    
+    return render_template('blog/update.html', form=form, post=post)
 
 @bp.route('/<int:id>/delete', methods=('POST',))
 @login_required

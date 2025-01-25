@@ -29,7 +29,9 @@
 
     <!-- Post Body -->
     <div class="mt-4 text-gray-700 leading-relaxed markdown-content">
-        {{ post['body'] | safe }}
+        <div class="prose">
+        {{ post['body']|safe }}
+        </div>
       </div>
 </article>
 
