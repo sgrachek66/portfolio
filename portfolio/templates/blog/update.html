@@ -1,57 +1,36 @@
-{% extends 'base.html' %}
-
-{% block quill %}
-<!-- Quill CSS -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<!-- Quill JS -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-{% endblock %}
+{% extends "base.html" %}
 
 {% block header %}
-<h1 class="text-3xl font-bold text-gray-800">
-  {% block title %}Edit "{{ post['title'] }}"{% endblock %}
-</h1>
+<h1 class="text-3xl font-bold text-gray-800">{% block title %}Edit "{{ post['title'] }}"{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-  <!-- Update form -->
-  <form method="post" id="post-form" class="space-y-6">
+  <form method="POST">
+    {{ form.csrf_token }}
+
     <!-- Title -->
-    <div>
-      <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-      <input 
-        type="text"
-        name="title"
-        id="title"
-        value="{{ request.form['title'] or post['title'] }}" 
-        required
-        class="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm 
-               focus:ring-indigo-500 focus:border-indigo-500"
-      >
+    <div class="mb-4">
+      {{ form.title.label(class="block text-sm font-medium text-gray-700") }}
+      {{ form.title(class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md 
+                                shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm") }}
+      {% for error in form.title.errors %}
+        <p class="text-red-600 text-sm">{{ error }}</p>
+      {% endfor %}
     </div>
 
-    <!-- Quill Editor Container -->
-    <div>
-      <label for="editor" class="block text-sm font-medium text-gray-700">Body</label>
-      <!-- Replace the <textarea> with a <div> that Quill will control -->
-      <div 
-        id="editor"
-        class="mt-1 block w-full h-52 border border-gray-300 rounded-lg"
-      ></div>
+    <!-- CKEditor (content) -->
+    <div class="mb-4">
+      {{ form.content.label(class="block text-sm font-medium text-gray-700") }}
+      {{ form.content(class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm") }}
+      {% for error in form.content.errors %}
+        <p class="text-red-600 text-sm">{{ error }}</p>
+      {% endfor %}
     </div>
 
-    <!-- Hidden input to store Quill's HTML content on submit -->
-    <input type="hidden" name="body" id="hiddenBody">
-
-    <!-- Form Buttons -->
+    <!-- Submit Button -->
     <div class="flex justify-between items-center">
-      <button 
-        type="submit" 
-        class="text-white bg-indigo-600 hover:bg-indigo-700 font-medium py-2 px-4 rounded-lg"
-      >
-        Save
-      </button>
+      {{ form.submit(class="px-6 py-2 text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-md") }}
       <a 
         href="{{ url_for('blog.index') }}" 
         class="text-indigo-600 hover:underline font-medium"
@@ -60,7 +39,7 @@
       </a>
     </div>
   </form>
-
+  
   <hr class="my-6 border-gray-200">
 
   <!-- Delete Form -->
@@ -78,30 +57,4 @@
     </button>
   </form>
 </div>
-
-<!-- Quill JS Initialization -->
-<script>
-  // 1) Initialize Quill on the #editor div
-  var quill = new Quill('#editor', {
-    theme: 'snow',
-    modules: {
-      toolbar: [
-        ['bold', 'italic', 'underline', 'strike'],        
-        [{ 'header': 1 }, { 'header': 2 }],               
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],     
-        ['link', 'code-block']                            
-      ]
-    }
-  });
-
-  // 2) Set the editor's content from the post if it exists
-  //    Use backticks for multi-line string if needed
-  quill.root.innerHTML = `{{ request.form['body'] or post['body'] | safe }}`;
-
-  // 3) Copy Quill content into the hidden <input> before submitting
-  document.getElementById('post-form').onsubmit = function() {
-    var htmlContent = quill.root.innerHTML;
-    document.getElementById('hiddenBody').value = htmlContent;
-  };
-</script>
 {% endblock %}
