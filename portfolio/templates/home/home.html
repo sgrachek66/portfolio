@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home - Portfolio</title>
+  <!-- Tailwind CSS output -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+  <!-- Fontawesome icons -->
+  <script src="https://kit.fontawesome.com/f96f93f3cb.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- 
+    If you already have a navbar component (navbar.html) included in base.html, 
+    you can remove this or reference your existing navbar. 
+  -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+      <div class="text-lg font-bold">My Portfolio</div>
+      <div>
+        <!-- Link to blog or other pages later, e.g.: -->
+        <a href="{{ url_for('blog.index') }}" class="text-gray-700 hover:text-indigo-600">Blog</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="py-10 md:py-16">
+    <div class="container max-w-screen-xl mx-auto px-4 text-center">
+      <div class="flex flex-col items-center mb-10">
+        <!-- Replace this with your own image or a relevant illustration -->
+        <img 
+          src="https://via.placeholder.com/300x300.png?text=Profile+Photo" 
+          alt="Your Headshot" 
+          class="w-48 h-48 rounded-full mb-6 object-cover"
+        />
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Hi, I'm Scott</h1>
+        <h2 class="mt-2 text-xl md:text-2xl text-gray-600">Data Analyst &amp; Backend Developer</h2>
+      </div>
+      <p class="text-md md:text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+        I help companies uncover insights from data and build robust server-side applications. Let’s tackle your next challenge together!
+      </p>
+      <a 
+        href="#contact" 
+        class="inline-block px-8 py-3 bg-indigo-600 text-white rounded-md text-sm md:text-base font-medium hover:bg-indigo-700 transition-colors"
+      >
+        Hire Me
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="py-10 md:py-16 bg-white">
+    <div class="container max-w-screen-xl mx-auto px-4">
+      <div class="flex flex-col lg:flex-row items-center">
+        <div class="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pr-8">
+          <!-- Replace with a relevant image or illustration -->
+          <img 
+            src="{{ url_for('static', filename='assets/grachek_scott.jpeg') }}" 
+            alt="Data Analytics" 
+            class="rounded-lg shadow-md"
+          />
+        </div>
+        <div class="w-full lg:w-1/2">
+          <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">About Me</h3>
+          <p class="text-gray-600 mb-6">
+            I’m a data-driven developer with a passion for uncovering patterns in complex datasets 
+            and building backend solutions that scale. After many years of working with Python, SQL, 
+            and large-scale data pipelines, I’ve honed my skills to translate business questions into 
+            actionable insights—and deliver code that’s both clean and maintainable.
+          </p>
+          <p class="text-gray-600 mb-6">
+            Whether it’s constructing sophisticated ETL processes, designing APIs, or crunching numbers 
+            for advanced analytics, I thrive on solving tough problems. In my free time, I enjoy 
+            exploring new open-source tools, contributing to data science communities, and always 
+            leveling up my skill set.
+          </p>
+          <a 
+            href="#contact" 
+            class="inline-block px-6 py-2 bg-indigo-600 text-white rounded-md text-sm md:text-base font-medium hover:bg-indigo-700 transition-colors"
+          >
+            Let’s Connect
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS or TECH STACK SECTION -->
+  <section class="py-10 md:py-16">
+    <div class="container max-w-screen-xl mx-auto px-4">
+      <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">My Skills</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Skill Card -->
+        <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+          <i class="fab fa-python text-indigo-600 text-4xl mb-4"></i>
+          <h4 class="font-medium text-gray-700 text-lg mb-2">Python</h4>
+          <p class="text-sm text-gray-500">Expert in data manipulation, web frameworks, and scripting.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+          <!-- Another example icon -->
+          <i class="fas fa-database  text-indigo-600 text-4xl mb-4"></i>
+          <h4 class="font-medium text-gray-700 text-lg mb-2">Databases</h4>
+          <p class="text-sm text-gray-500">SQL, NoSQL, optimizing queries, and designing schemas.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+          <i class="fas fa-chart-bar  text-indigo-600 text-4xl mb-4"></i>
+          <h4 class="font-medium text-gray-700 text-lg mb-2">Data Analysis</h4>
+          <p class="text-sm text-gray-500">Pandas, NumPy, and other libraries for advanced insights.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+          <i class="fas fa-server  text-indigo-600 text-4xl mb-4"></i>
+          <h4 class="font-medium text-gray-700 text-lg mb-2">API Development</h4>
+          <p class="text-sm text-gray-500">Building RESTful &amp; GraphQL APIs with Flask, FastAPI, etc.</p>
+        </div>
+        
+        <!-- ...Add or remove cards as needed... -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS SECTION -->
+  <section class="py-10 md:py-16 bg-white">
+    <div class="container max-w-screen-xl mx-auto px-4">
+      <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">Featured Projects</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Project Card -->
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+          <h4 class="text-lg font-semibold text-gray-700 mb-2">Data Pipeline for eCommerce</h4>
+          <p class="text-sm text-gray-600 mb-4">Built a robust ETL pipeline that processes millions of records daily, integrating sales data from multiple sources into a unified data warehouse.</p>
+          <a 
+            href="#" 
+            class="text-indigo-600 hover:underline text-sm font-medium"
+          >
+            View Details →
+          </a>
+        </div>
+
+        <!-- Another Project Card -->
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+          <h4 class="text-lg font-semibold text-gray-700 mb-2">Customer Churn Analysis</h4>
+          <p class="text-sm text-gray-600 mb-4">Leveraged predictive modeling and advanced analytics to identify key factors leading to customer churn, reducing churn by 15%.</p>
+          <a 
+            href="#" 
+            class="text-indigo-600 hover:underline text-sm font-medium"
+          >
+            View Details →
+          </a>
+        </div>
+
+        <!-- Another Project Card -->
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+          <h4 class="text-lg font-semibold text-gray-700 mb-2">Real-Time Analytics Dashboard</h4>
+          <p class="text-sm text-gray-600 mb-4">Developed a Flask-based real-time dashboard with interactive charts, streaming live data for immediate business insights.</p>
+          <a 
+            href="#" 
+            class="text-indigo-600 hover:underline text-sm font-medium"
+          >
+            View Details →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="py-10 md:py-16">
+    <div class="container max-w-screen-xl mx-auto px-4 text-center">
+      <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Interested in Working Together?</h3>
+      <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+        I'm currently open to freelance projects or full-time roles where I can leverage my data analysis and backend development expertise.
+      </p>
+
+      <a 
+        href="mailto:email@example.com" 
+        class="inline-block px-8 py-3 bg-indigo-600 text-white rounded-md text-sm md:text-base font-medium hover:bg-indigo-700 transition-colors"
+      >
+        Contact Me
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-gray-200 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
+      © 2025 Scott Grachek. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
