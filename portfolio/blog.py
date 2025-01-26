@@ -8,7 +8,7 @@ from portfolio.db import get_db
 from portfolio.utils.security import sanitize_html
 from portfolio.webforms import PostForm
 
-bp = Blueprint('blog', __name__)
+bp = Blueprint('blog', __name__, url_prefix='/blog')
 
 @bp.route('/')
 def index():
